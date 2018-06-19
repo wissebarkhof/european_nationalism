@@ -1,0 +1,38 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+path {
+  stroke: white;
+}
+
+.map {
+  width: 65%;
+  float: left;
+}
+
+.country {
+  fill-opacity: .8;
+}
+
+.country-detail {
+  float: left;
+  width: 34%;
+  border-radius: 5px;
+  border: 1px solid grey;
+  h1 {
+    padding: 7%;
+  }
+}
