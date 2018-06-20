@@ -26,7 +26,7 @@ var svg = d3.select('.map')
   .attr('height', h);
 
 // load geojson data
-d3.json('../../data/europe_small.geojson', function (err, data) {
+d3.json('data/europe_small.geojson', function (err, data) {
   if (err) {
     console.error(err);
   }
@@ -48,7 +48,7 @@ d3.json('../../data/europe_small.geojson', function (err, data) {
   path = d3.geoPath()
     .projection(projection)
 
-  d3.csv('../../data/wikitable.csv', (err, data) => {
+  d3.csv('data/wikitable.csv', (err, data) => {
     if (err) {
       console.error(err);
     }
