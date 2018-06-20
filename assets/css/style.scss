@@ -1,7 +1,7 @@
 ---
 ---
 
-@import "{{ site.theme }}";
+// @import "{{ site.theme }}";
 
 .axis path,
 .axis line {
@@ -19,31 +19,37 @@ path {
 }
 
 .map {
-  width: 65%;
+  width: 50%;
   float: left;
 }
 
 .country {
   fill-opacity: .8;
 }
+.wrapper {
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-top: 7%;
 
+}
 .country-detail {
+  width: 90%;
+  margin-left: 20px;
+  margin-right: 20px;
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
-  padding: 3% 3% 3% 3%;
-  float: left;
-  width: 34%;
+  padding: 15px 15px 15px 15px;
   border-radius: 5px;
-  border: 1px solid grey;
+  border: 1px solid lightgrey;
   #noData {
-    display: none;  
+    display: none;
   }
   .detail-explanation {
     display: none;
   }
   h2 {
-    font-weight: 200px;
+    font-weight: 100px;
   }
   .detail-head {
     display: block;
@@ -52,5 +58,43 @@ path {
   .total-bar {
     width: 50%;
     float: left;
+  }
+}
+.label-top {
+  display: block;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.select-group {
+  padding: 0% 15% 0% 15%;
+}
+
+.network {
+  padding: 100px;
+  text-align: center;
+}
+
+div.tooltip {
+  position: absolute;
+  // width: 200px;
+  // height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  .connected-to {
+    display: block;
+    margin-top: 10px;
   }
 }

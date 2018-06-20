@@ -37,8 +37,8 @@ d3.json('../../data/europe_small.geojson', function (err, data) {
   console.log(geo);
   // scale and center
   var center = d3.geoCentroid(geo)
-  var scale = 550;
-  var offset = [0.5 * w, 0.6 * h];
+  var scale = 500;
+  var offset = [0.6 * w, 0.6 * h];
   var projection = d3.geoMercator()
     .center(center)
     .translate(offset)

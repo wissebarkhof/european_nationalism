@@ -43,9 +43,9 @@ function calculateTotals() {
     return parseInt(d.Votes);
   });
 
-  country.totalPercentage = d3.sum(currentData, (d) => {
+  country.totalPercentage = Math.round(d3.sum(currentData, (d) => {
     return parseFloat(d.fraction_votes)
-  });
+  }), 4);
 
   country.votesToGet = parseInt(country.totalVotes / (country.totalPercentage / 100))
 
@@ -56,6 +56,7 @@ function calculateTotals() {
   country.seatsToGet = currentData.length > 0 ? currentData[0].total : 0;
   console.log('country', country);
 }
+
 
 function drawTotals() {
   if (svgSeats) {
@@ -80,7 +81,7 @@ function drawTotals() {
     margin = {
       top: 20,
       right: 0,
-      bottom: 150,
+      bottom: 180,
       left: 70
     },
     w = barWidth - margin.left - margin.right,
@@ -104,21 +105,23 @@ function drawTotals() {
   var gSeats = svgSeats.append("g")
     .attr("transform", "translate(" + (margin.left - 20) + "," + margin.top + ")");
 
+  // scales
   var x = d3.scaleBand()
     .rangeRound([0, w])
     .padding(0.1),
     y = d3.scaleLinear()
     .rangeRound([h, 0]);
 
-
-
+  // draw bars
   function createBar(metric, g, total) {
+    // set domain
     x.domain(currentData.map(function (d) {
       return d.Party;
     }));
     y.domain([0, total]);
     console.log('data', currentData);
 
+    // x axis
     g.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + h + ")")
@@ -127,8 +130,9 @@ function drawTotals() {
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", ".15em")
-      .attr("transform", "rotate(-90)");;
+      .attr("transform", "rotate(-90)")
 
+    // y axis
     g.append("g")
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(y)
@@ -140,6 +144,7 @@ function drawTotals() {
       .attr("text-anchor", "end")
       .text("Frequency");
 
+    // bars
     g.selectAll(".bar")
       .data(currentData)
       .enter()
@@ -156,6 +161,7 @@ function drawTotals() {
         return h - y(parseInt(d[metric]));
       });
 
+    // totle
     g.append("text")
       .attr("x", (w / 2))
       .attr("y", 0 - (margin.top / 2))
