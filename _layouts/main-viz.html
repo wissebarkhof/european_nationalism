@@ -22,12 +22,18 @@
     <div class="container">
       <div class="map"></div>
       <div class="country-detail">
-        <h1 id="country"></h1>
-        <p>
-          Totals
-        </p>
-        <div id="totalVotes" class="total-pie"></div>
-        <div id="totalSeats" class="total-pie"></div>
+        <div class="detail-head">
+          <h2 class="country-name"></h2>
+          <p class="detail-explanation">
+            In <span class="country-name"></span> <strong id="numParties"></strong> nationalist parties hold in total
+            <strong id="totalSeatsNum"></strong> out of <strong id="seatsToGet"></strong> seats in the parliament. In the last election they got <strong id="totalVotesNum"></strong> (<strong id="totalPercentage"></strong>) of the popular vote.
+          </p>
+        </div>
+        <div id="noData">
+          <strong>For <span class="country-name"></span> there is no data to display.</strong>
+        </div>
+        <div id="totalVotes" class="total-bar"></div>
+        <div id="totalSeats" class="total-bar"></div>
       </div>
     </div>
     <script type="text/javascript" src="assets/js/map.js"></script>
