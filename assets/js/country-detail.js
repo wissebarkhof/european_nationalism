@@ -30,6 +30,8 @@ function setCountry(d) {
     .text(currentData.length)
   $('.detail-explanation')
     .show()
+
+  createNetworkDetail()
 }
 
 
@@ -176,6 +178,9 @@ function drawTotals() {
   // console.log('total votes', totalVotes, 'votes to get', votesToGet, 'total %', totalPercentage, parseFloat(totalVotes / votesToGet), 'total seats', totalSeats)
 
 }
+
+
+
 
 d3.csv('../../data/wikitable.csv', (err, data) => {
   if (err) {

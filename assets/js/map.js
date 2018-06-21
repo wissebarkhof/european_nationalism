@@ -95,7 +95,9 @@ function drawMap() {
         .style('fill-opacity', 0.8)
         .style("cursor", "default");
     })
-    .on('click', clickCountry);
+    .on('click', (d, i) => {
+      clickCountry(d)
+    });
 
   // Add names to the districts
   countries = svg.selectAll('text country-names')

@@ -1,0 +1,106 @@
+<html lang="{{ site.lang | default: " en-US " }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> {% seo %}
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  <!--[if lt IE 9]>
+    <script src=" //cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js "></script>
+    <![endif]-->
+</head>
+<div>
+
+  <body>
+    <div class="container">
+      <div class="page-head">
+        <h1>Map Vizualisation</h1>
+        <a class="nav" href="/network">Network</a>
+        <a class="nav" href="/">Home</a>
+
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="map col-md-12"></div>
+      </div>
+      <div class="row">
+        <div class="detail-explanation col-md-12">
+          <h1>Stats for <span class="country-name"></span></h3>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="country-detail">
+                <div class="detail-head">
+                  <h3 >Political Langscape</h3>
+                  <p class="detail-explanation">
+                    In <span class="country-name"></span> <strong id="numParties"></strong> nationalist parties hold in total
+                    <strong id="totalSeatsNum"></strong> out of <strong id="seatsToGet"></strong> seats in the parliament. In the last election they got <strong id="totalVotesNum"></strong> (<strong id="totalPercentage"></strong>) of the popular vote.
+                  </p>
+                </div>
+                <div id="noData">
+                  <strong>For <span class="country-name"></span> there is no data to display.</strong>
+                </div>
+                <div id="totalVotes" class="total-bar"></div>
+                <div id="totalSeats" class="total-bar"></div>
+
+              </div>
+            </div>
+            <div class="network-visual col-md-6">
+              <h3>Network</h3>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="label label-top">Choose what the colors should display:</label>
+                  <select id="colorNetDetMetric">
+                    <option value='country'>
+                      Country
+                    </option>
+                    <option value='label'>
+                      Fascist vs Nationalist
+                    </option>
+                    <option value='community'>
+                      Community (louvain)
+                    </option>
+                    <option value='info_community'>
+                      Community (Infomap)
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="label label-top">Choose what the size should display:</label>
+                  <select id="sizeNetDetMetric">
+                    <option value='uniform'>
+                      Uniform
+                    </option>
+                    <option value='in_degree_all'>
+                      Degree (in)
+                    </option>
+                    <option value='out_degree_all'>
+                      Degree (out)
+                    </option>
+                    <option value='all_betweenness'>
+                      Betweenness Centrality (Square Root)
+                    </option>
+                  </select>
+                </div>
+                <div class="network-detail"></div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+      <script type="text/javascript" src="assets/js/map.js"></script>
+      <script type="text/javascript" src="assets/js/country-detail.js"></script>
+      <script type="text/javascript" src="assets/js/network.js"></script>
+      <script type="text/javascript" src="assets/js/network-detail.js"></script>
+
+  </body>
+
+</html>

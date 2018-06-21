@@ -16,38 +16,15 @@
 <div>
 
   <body>
-    <div class="wrapper ">
+    <div class="container ">
       <div class="page-head">
-        <h1>Vizualisation</h1>
+        <h1>Network Visualization</h1>
+        <a class="nav" href="/map">Map</a>
+        <a class="nav" href="/">Home</a>
       </div>
     </div>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
-        <div class="map col-md-6"></div>
-        <div class="col-md-6">
-          <div class="country-detail">
-            <div class="detail-head">
-              <h2 class="country-name"></h2>
-              <p class="detail-explanation">
-                In <span class="country-name"></span> <strong id="numParties"></strong> nationalist parties hold in total
-                <strong id="totalSeatsNum"></strong> out of <strong id="seatsToGet"></strong> seats in the parliament. In the last election they got <strong id="totalVotesNum"></strong> (<strong id="totalPercentage"></strong>) of the popular vote.
-              </p>
-            </div>
-            <div id="noData">
-              <strong>For <span class="country-name"></span> there is no data to display.</strong>
-            </div>
-            <div id="totalVotes" class="total-bar"></div>
-            <div id="totalSeats" class="total-bar"></div>
-            <div class="detail-explanation">
-              <h3>Network Analysis</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="container-fluid">
-      <div class="row select-group">
         <div class="col-md-6">
           <label class="label label-top">Choose what the colors should display:</label>
           <select id="colorMetric">
@@ -96,6 +73,8 @@
     <script type="text/javascript" src="assets/js/map.js"></script>
     <script type="text/javascript" src="assets/js/country-detail.js"></script>
     <script type="text/javascript" src="assets/js/network.js"></script>
+    <script type="text/javascript" src="assets/js/network-detail.js"></script>
+
   </body>
 
 </html>

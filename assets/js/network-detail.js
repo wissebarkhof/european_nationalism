@@ -1,52 +1,51 @@
-console.log('network.js loaded');
-
-var netWidth = $('.network')
+var netDetWidth = $('.country-detail')
   .width(),
-  marginNet = {
-    top: 200,
-    bottom: 200,
-    left: 200,
-    right: 200,
+  netDetMetrics = {
+    'size': 'uniform',
+    'color': 'country',
   },
-  netHeight = 1000,
-  radius = 10,
-  netMetrics = {
-    color: 'country',
-    size: 'uniform',
-  },
-  netData, svgNet;
+  svgNetDet;
 
-function setMetric(type, value) {
-  netMetrics[type] = value;
+function calculateRadius(d, metricVar) {
+  if (metricVar.size === 'uniform') {
+    return 15
+  }
+  if (metricVar.size === 'all_betweenness') {
+    return Math.max(Math.sqrt(d[metricVar.size]), 10)
+  }
+  return d[metricVar.size]
 }
 
-$('#sizeMetric')
+function setNetDetMetric(type, value) {
+  netDetMetrics[type] = value;
+}
+
+$('#sizeNetDetMetric')
   .on('change', function () {
-    netMetrics['size'] = this.value;
-    drawNetwork()
+    netDetMetrics['size'] = this.value;
+    createNetworkDetail()
   })
 
-$('#colorMetric')
+$('#colorNetDetMetric')
   .on('change', function () {
-    netMetrics['color'] = this.value;
-    drawNetwork()
+    netDetMetrics['color'] = this.value;
+    createNetworkDetail()
   })
 
-
-function drawNetwork() {
-  if (svgNet) {
-    svgNet.remove();
+function drawConnections(nodes, links) {
+  if (svgNetDet) {
+    svgNetDet.remove();
   }
-  var w = netWidth;
-  var h = netHeight - marginNet.top - marginNet.bottom
+  var w = netDetWidth;
+  var h = netDetWidth;
 
-  svgNet = d3.select(".network")
+  svgNetDet = d3.select(".network-detail")
     .append('svg')
     .attr("width", w)
     .attr("height", h);
 
   // TODO: arrowheads on links
-  svgNet.append("svg:defs")
+  svgNetDet.append("svg:defs")
     .selectAll("marker")
     // .data(["end"]) // Different link/path types can be defined here
     // .enter()
@@ -73,30 +72,31 @@ function drawNetwork() {
       .id(function (d) {
         return d.id;
       }))
-    .force("charge", d3.forceManyBody())
+    .force("charge", d3.forceManyBody()
+      .strength([-100]))
     .force("center", d3.forceCenter(w / 2, h / 2));
 
-  var link = svgNet.append("g")
+  var link = svgNetDet.append("g")
     .attr("class", "links")
     .selectAll("line")
-    .data(netData.links)
+    .data(links)
     .enter()
     .append("line")
     .attr('fill', 'black')
     .attr("stroke-width", 1)
     .attr('marker-end', 'url(#arrowhead)');
 
-  var node = svgNet.append("g")
+  var node = svgNetDet.append("g")
     .attr("class", "nodes")
     .selectAll("circle")
-    .data(netData.nodes)
+    .data(nodes)
     .enter()
     .append("circle")
-    .attr("r", d => calculateRadius(d, netMetrics))
+    .attr("r", d => calculateRadius(d, netDetMetrics))
     .attr("fill", function (d) {
-      return color(d[netMetrics.color]);
+      return color(d[netDetMetrics.color]);
     })
-    .attr('stroke', 'white')
+    .attr('stroke', d => d.main ? 'red' : 'white')
     .call(d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
@@ -121,11 +121,11 @@ function drawNetwork() {
     });
 
   simulation
-    .nodes(netData.nodes)
+    .nodes(nodes)
     .on("tick", ticked);
 
   simulation.force("link")
-    .links(netData.links);
+    .links(links);
 
   function ticked() {
     node.attr("cx", function (d) {
@@ -170,31 +170,30 @@ function drawNetwork() {
   }
 }
 
-function generateTooltip(d) {
-  var basicInfo = `<strong>${d.name}</strong></br>
-          <span>${d.country}</span></br>
-          <i>${d.label === 'Party' ? 'Nationalist Party' : 'Fascist Movement'}</i>`;
-  var links = findConnected(d);
-  var movements = links.filter(d => d.label === 'Movement')
-  var parties = links.filter(d => d.label === 'Party')
-  var connectedParties = parties.map(d => ` - ${d.name} (${d.country}) <i>${d.label === 'Party' ? 'Nationalist Party' : 'Fascist Movement'}</i>`)
-    .join('</br>')
-  var connectedMovements = movements.map(d => ` - ${d.name} (${d.country}) <i>${d.label === 'Party' ? 'Nationalist Party' : 'Fascist Movement'}</i>`)
-    .join('</br>')
-  return basicInfo + '<span class="connected-to">Links to nationalist parties:</span>' +
-    connectedParties + '<span class="connected-to">Links to fascist movements:</span>' + connectedMovements;
-}
+function createNetworkDetail() {
+  // initialize nodes
+  netData.nodes = netData.nodes.map(d => {
+    d.main = false;
+    return d;
+  })
+  // find nodes and links for current country data
+  var titles = currentData.map(d => d.title)
+  var nodes = netData.nodes.filter(d => titles.indexOf(d.title) > -1)
+  var links = netData.links.filter(d => titles.indexOf(d.source.title) > -1);
 
-function findConnected(node) {
-  var links = netData.links.filter(d => d.source.id === node.id)
-  return links.map(d => d.target);
-}
+  // mark 'main' nodes
+  nodes = nodes.map(d => {
+    d.main = true
+    return d
+  })
 
-d3.json('data/party_movement_graph.json', (err, data) => {
-  if (err) {
-    console.error(err);
+  // add target nodes
+  for (var i = 0; i < links.length; i++) {
+    if (nodes.indexOf(links[i].target) < 0) {
+      nodes.push(links[i].target)
+    }
   }
 
-  netData = data;
-  drawNetwork();
-})
+  // draw connections
+  drawConnections(nodes, links);
+}
