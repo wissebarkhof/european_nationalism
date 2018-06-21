@@ -20,8 +20,8 @@
       <h1><a href="{{ "/" | absolute_url }} ">European Nationalism</a></h1> {% if site.logo %}
 
       <img src="{{site.logo | relative_url}} " alt="Logo " /> {% endif %}
-      <a class="nav" href="/map">Map</a>
-      <a class="nav" href="/network">Network</a>
+      <a class="nav" href="{{ site.baseurl }}/map">Map</a>
+      <a class="nav" href="{{ site.baseurl }}/network">Network</a>
       <p>{{ site.description | default: site.github.project_tagline }}</p>
 
       {% if site.github.is_project_page %}
