@@ -1,10 +1,21 @@
-var netDetWidth = $('.country-detail')
-  .width(),
+var netDetWidth = 540,
+  // $('.total-bar')
+  //   .width(),
   netDetMetrics = {
     'size': 'uniform',
     'color': 'country',
   },
-  svgNetDet;
+  first = true,
+  svgNetDet, network
+
+if (!network) {
+  d3.json('data/party_movement_graph.json', (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    network = data;
+  });
+}
 
 function calculateRadius(d, metricVar) {
   if (metricVar.size === 'uniform') {
@@ -13,7 +24,7 @@ function calculateRadius(d, metricVar) {
   if (metricVar.size === 'all_betweenness') {
     return Math.max(Math.sqrt(d[metricVar.size]), 10)
   }
-  return d[metricVar.size]
+  return Math.max(d[metricVar.size], 10)
 }
 
 function setNetDetMetric(type, value) {
@@ -45,20 +56,20 @@ function drawConnections(nodes, links) {
     .attr("height", h);
 
   // TODO: arrowheads on links
-  svgNetDet.append("svg:defs")
-    .selectAll("marker")
-    // .data(["end"]) // Different link/path types can be defined here
-    // .enter()
-    .append("svg:marker") // This section adds in the arrows
-    .attr("id", 'arrowhead')
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 15)
-    .attr("refY", -1.5)
-    .attr("markerWidth", 6)
-    .attr("markerHeight", 6)
-    .attr("orient", "auto")
-    .append("svg:path")
-    .attr("d", "M0,-5L10,0L0,5");
+  // svgNetDet.append("svg:defs")
+  //   .selectAll("marker")
+  //   // .data(["end"]) // Different link/path types can be defined here
+  //   // .enter()
+  //   .append("svg:marker") // This section adds in the arrows
+  //   .attr("id", 'arrowhead')
+  //   .attr("viewBox", "0 -5 10 10")
+  //   .attr("refX", 15)
+  //   .attr("refY", -1.5)
+  //   .attr("markerWidth", 6)
+  //   .attr("markerHeight", 6)
+  //   .attr("orient", "auto")
+  //   .append("svg:path")
+  //   .attr("d", "M0,-5L10,0L0,5");
 
   var div = d3.select("body")
     .append("div")
@@ -72,19 +83,8 @@ function drawConnections(nodes, links) {
       .id(function (d) {
         return d.id;
       }))
-    .force("charge", d3.forceManyBody()
-      .strength([-100]))
+    .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(w / 2, h / 2));
-
-  var link = svgNetDet.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(links)
-    .enter()
-    .append("line")
-    .attr('fill', 'black')
-    .attr("stroke-width", 1)
-    .attr('marker-end', 'url(#arrowhead)');
 
   var node = svgNetDet.append("g")
     .attr("class", "nodes")
@@ -115,6 +115,16 @@ function drawConnections(nodes, links) {
         .style("opacity", 0);
     });
 
+  var link = svgNetDet.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter()
+    .append("line")
+    .attr('fill', 'black')
+    .attr("stroke-width", 1)
+    .attr('marker-end', 'url(#arrowhead)');
+
   node.append("title")
     .text(function (d) {
       return d.name;
@@ -129,11 +139,11 @@ function drawConnections(nodes, links) {
 
   function ticked() {
     node.attr("cx", function (d) {
-        var radius = calculateRadius(d, netMetrics);
+        var radius = calculateRadius(d, netDetMetrics);
         return d.x = Math.max(radius, Math.min(w - radius, d.x));
       })
       .attr("cy", function (d) {
-        var radius = calculateRadius(d, netMetrics);
+        var radius = calculateRadius(d, netDetMetrics);
         return d.y = Math.max(radius, Math.min(h - radius, d.y));
       });
 
@@ -171,15 +181,30 @@ function drawConnections(nodes, links) {
 }
 
 function createNetworkDetail() {
+
+  // initialize links with data by running the similation once
+  var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink()
+      .id(function (d) {
+        return d.id;
+      }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(netDetWidth / 2, netDetWidth / 2));
+  simulation
+    .nodes(network.nodes)
+
+  simulation.force("link")
+    .links(network.links);
+
   // initialize nodes
-  netData.nodes = netData.nodes.map(d => {
+  network.nodes = network.nodes.map(d => {
     d.main = false;
     return d;
   })
   // find nodes and links for current country data
   var titles = currentData.map(d => d.title)
-  var nodes = netData.nodes.filter(d => titles.indexOf(d.title) > -1)
-  var links = netData.links.filter(d => titles.indexOf(d.source.title) > -1);
+  var nodes = network.nodes.filter(d => titles.indexOf(d.title) > -1)
+  var links = network.links.filter(d => titles.indexOf(d.source.title) > -1);
 
   // mark 'main' nodes
   nodes = nodes.map(d => {
@@ -187,7 +212,7 @@ function createNetworkDetail() {
     return d
   })
 
-  // add target nodes
+  // add target nodes + data
   for (var i = 0; i < links.length; i++) {
     if (nodes.indexOf(links[i].target) < 0) {
       nodes.push(links[i].target)

@@ -21,6 +21,22 @@
         <h1>Network Visualization</h1>
         <a class="nav" href="{{ site.baseurl }}/map">Map</a>
         <a class="nav" href="{{ site.baseurl }}/">Home</a>
+        <p>
+          The network below shows the full picture of all the nationalist parties and fascist movements in Europe and how they are connected. It contains
+          <strong>247</strong> entities or <i>nodes</i> and <strong>2813</strong> connections or <i>links</i>. There are <strong>70</strong> nationalist parties with
+          <strong>153</strong> links between them and <strong>177</strong> fascist movements with <i>2329</i> links between those. There are <strong>27</strong> parties linking to <strong>48</strong> fascist movements through <strong>150</strong> links.
+          There are <strong>88</strong> movements linking to
+          <strong>24</strong> parties through 181 links.
+        </p>
+        <p>
+          Use the dropdowns to select what meaning the colors and the size or the nodes in the network have. The colors can be used to show differentiate between countries, nationalist parties and fascist movements or algorithmically found communities of entities
+          (more on that below). Use the size to get a feel for the importance of the nodes in the network. Select <i>in degree</i> to see how many nodes link to that party or <i>out degree </i>to show how many other nodes are linked to from
+          node. <i>Betweennes Centrality</i> is a measure of how important a node is within a network in terms of information flow (more about that below). Hover over the nodes to get more detais on the node.
+
+        </p>
+        <p>
+          <i>Side note: there are 41 different countries and 20 colors so one color represents multiple countries.</i>
+        </p>
       </div>
     </div>
     <div class="container">
@@ -62,6 +78,9 @@
       </div>
       <div class="row">
         <div class="col-md-12">
+          <div class="legend">
+
+          </div>
           <div class="network">
 
           </div>
@@ -69,6 +88,9 @@
 
       </div>
 
+    </div>
+    <div class="container">
+      {{ content }}
     </div>
     <script type="text/javascript" src="assets/js/map.js"></script>
     <script type="text/javascript" src="assets/js/country-detail.js"></script>

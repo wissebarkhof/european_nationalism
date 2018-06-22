@@ -32,6 +32,26 @@ $('#colorMetric')
     drawNetwork()
   })
 
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var uniq = (arrArg) => {
+  return arrArg.filter((elem, pos, arr) => {
+    return arr.indexOf(elem) == pos;
+  });
+}
+
+function createLegend(metricVar) {
+  var legend = d3.select('.legend')
+    .append('svg')
+    .attr('width', 100)
+    .attr('height', 20);
+
+  var variable = metricVar.color
+  if (variable === 'country') {
+    var countries = uniq(netData.nodes.map(d => d.country.split(' ')[0]))
+    console.log('countries', countries.length);
+  }
+}
 
 function drawNetwork() {
   if (svgNet) {
@@ -66,7 +86,6 @@ function drawNetwork() {
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-  var color = d3.scaleOrdinal(d3.schemeCategory20);
 
   var simulation = d3.forceSimulation()
     .force("link", d3.forceLink()
@@ -126,6 +145,8 @@ function drawNetwork() {
 
   simulation.force("link")
     .links(netData.links);
+
+  createLegend(netMetrics)
 
   function ticked() {
     node.attr("cx", function (d) {

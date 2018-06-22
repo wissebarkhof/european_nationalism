@@ -28,13 +28,12 @@ var svg = d3.select('.map')
 // load geojson data
 d3.json('data/europe_small.geojson', function (err, data) {
   if (err) {
-    console.error(err);
+    console.error('Error loading geojson', err);
   }
 
   // remove isreal (illegal state -> free palestine)
   geo.features = data.features.filter((d) => d.properties.FIPS !== 'IS');
 
-  console.log(geo);
   // scale and center
   var center = d3.geoCentroid(geo)
   var scale = 500;
@@ -47,17 +46,19 @@ d3.json('data/europe_small.geojson', function (err, data) {
   // set projection
   path = d3.geoPath()
     .projection(projection)
+  // loading hack
+  var host = window.location.hostname;
+  var datapath = host === 'localhost' ? '' : 'european_nationalism/'
 
-  d3.csv('data/wikitable.csv', (err, data) => {
+  d3.csv(datapath + 'data/wikitable.csv', (err, data) => {
     if (err) {
-      console.error(err);
+      console.error('Error loading wiki csv', err);
     }
 
     dataset = data;
-
+    drawMap()
   })
 
-  drawMap()
 
 });
 

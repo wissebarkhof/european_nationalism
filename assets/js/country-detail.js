@@ -3,9 +3,11 @@ console.log('country-detail.js loaded');
 var country, wikiData, currentData, svgVote,
   svgSeats;
 
-var detailWidth = $('.country-detail')
-  .width() - 10;
+var detailWidth = 540 - 50;
+// $('.total-bar')
+//   .width() - 10;
 var barHeight = 300;
+
 
 function setCountry(d) {
   country = {
@@ -30,14 +32,14 @@ function setCountry(d) {
     .text(currentData.length)
   $('.detail-explanation')
     .show()
-
+  $('.no-selected-country')
+    .hide()
   createNetworkDetail()
 }
 
 
 function filterData(d) {
-  currentData = wikiData.filter(d => d.country === country.name)
-  console.log(currentData);
+  currentData = dataset.filter(d => d.country === country.name)
 }
 
 function calculateTotals() {
@@ -56,7 +58,6 @@ function calculateTotals() {
   });
 
   country.seatsToGet = currentData.length > 0 ? currentData[0].total : 0;
-  console.log('country', country);
 }
 
 
@@ -89,6 +90,7 @@ function drawTotals() {
     w = barWidth - margin.left - margin.right,
     h = barHeight - margin.top - margin.bottom;
 
+  console.log('bar width', barWidth);
   // votes
   svgVote = d3.select('#totalVotes')
     .append('svg')
@@ -121,7 +123,6 @@ function drawTotals() {
       return d.Party;
     }));
     y.domain([0, total]);
-    console.log('data', currentData);
 
     // x axis
     g.append("g")
@@ -175,18 +176,4 @@ function drawTotals() {
   createBar('seats', gSeats, country.seatsToGet)
   createBar('Votes', gVote, country.votesToGet)
 
-  // console.log('total votes', totalVotes, 'votes to get', votesToGet, 'total %', totalPercentage, parseFloat(totalVotes / votesToGet), 'total seats', totalSeats)
-
 }
-
-
-
-
-d3.csv('../../data/wikitable.csv', (err, data) => {
-  if (err) {
-    console.error(err);
-  }
-
-  wikiData = data;
-
-})

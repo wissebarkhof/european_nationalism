@@ -22,7 +22,9 @@ path {
   width: 50%;
   float: left;
 }
-
+.detail-explanation {
+  display: none;
+}
 .country {
   fill-opacity: .8;
 }
@@ -41,9 +43,7 @@ path {
   #noData {
     display: none;
   }
-  .detail-explanation {
-    display: none;
-  }
+
   h2 {
     font-weight: 100px;
   }
