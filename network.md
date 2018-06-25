@@ -138,9 +138,10 @@ Top 10 Parties in terms of Betweenness Centrality among Parties
 Community detection is the word often used to finding cliques or communities in
 a network. Groups of nodes that belong more to each other than to the rest. Often,
 this is defined as a set of nodes linking more to each other then to the rest of the network.
-For community detection, two algorithms where used, each with with their own
-method: Louvain and Infomap. The results of this analysis are best explored by
+For community detection, the [Infomap](http://www.mapequation.org/code.html) algorithm was used.
+
+The results of this analysis are best explored by
 going up to the visualisation and use the color dropdown to mark the communities.
-The largest communities for the Infomap algorithm are a 'fascist movement' community,
+The largest communities are a 'fascist movement' community,
 a 'nationalist party' community and a 'mixed' community. The third being the most interesting
 in my opinion, because it could potentially tell something about the nature of these nationalist parties.

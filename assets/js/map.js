@@ -48,7 +48,7 @@ d3.json('data/europe_small.geojson', function (err, data) {
     .projection(projection)
   // loading hack
   var host = window.location.hostname;
-  var datapath = host === 'localhost' ? '' : ''
+  var datapath = host === 'localhost' ? '' : '';
 
   d3.csv(datapath + 'data/wikitable.csv', (err, data) => {
     if (err) {
