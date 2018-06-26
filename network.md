@@ -103,8 +103,8 @@ Top 10 Parties in terms of Betweenness Centrality among Parties
  get from the political landscape in Europe and the places where nationalist parties
  have a strong presence, like Poland, Hungary and Italy.
 
- If we look at a similar list, but then including the fascist movements, another
- interesting phenomenon shows.
+ If we look at a similar list of central nodes, but then including the fascist movements,
+ we find some other interesting patterns arise.
 
  Top 10 nodes in terms of Betweenness Centrality among all nodes
  - Jobbik, Hungary: 3283.23424354 (Party)
@@ -142,6 +142,52 @@ For community detection, the [Infomap](http://www.mapequation.org/code.html) alg
 
 The results of this analysis are best explored by
 going up to the visualisation and use the color dropdown to mark the communities.
-The largest communities are a 'fascist movement' community,
-a 'nationalist party' community and a 'mixed' community. The third being the most interesting
-in my opinion, because it could potentially tell something about the nature of these nationalist parties.
+The largest communities are predominantly either 'fascist movement' or 'nationalist party', with an incidental outside in there.
+However, some smaller ones are more mixed, being the more interesting
+in my opinion because it could potentially tell something about the nature of these nationalist parties.
+
+Below is a little tool to explore the communities found by the algorithm. It displays only the top communities,
+because below that they are all singletons. Select a number (the lower, the stronger the community) and
+update the table with the different nationalist parties and fascist movements. Colors are used to quickly
+show the distribution of parties and movements, and which of the movements are listed as
+'inactive'.
+
+<div class="communities">
+  <div class="">
+    <label class="label-top">Select a community:</label>
+    <select id="communitySelect">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+    </select>
+  </div>
+  <div class="table-container">
+    <h4>List of nodes in community (<span id="totalNodes"></span>)</h4>
+    <div class="legend">
+      <span class="legend-box" style="background-color: #ddd"></span> = Inactive (<span id="totalInactive"></span>)
+      <span class="legend-box" style="background-color: red"></span> = Fascist Movement (<span id="totalMovements"></span>)
+      <span class="legend-box" style="background-color: green"></span> = Nationalist Party (<span id="totalParties"></span>)
+    </div>
+    <table id="com-table" class="table">
+      <thead>
+        <td><strong>Name</strong></td>
+        <td><strong>Country</strong></td>
+        <td><strong>Type</strong></td>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
