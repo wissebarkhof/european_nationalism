@@ -21,9 +21,9 @@ This gives a sense of how these entities are related semantically, although it i
 obviously far from perfect.
 
 This website contains two ways to explore this data and the network created.
-First, there is the [map](/map) view where you get an overview of what the
+First, there is the <a href="{{ site.baseurl }}/map">map</a> view where you get an overview of what the
 political landscape is in every country and look at the network at micro scale.
-Then, there is the [network](/network) overview that displays the whole network,
+Then, there is the <a href="{{ site.baseurl }}/network">network</a> overview that displays the whole network,
 which allows for a macro view of the data and how certain communities arise
 within the data.
 
